@@ -1,96 +1,61 @@
-FROM centos:7
-MAINTAINER AIZAWA Hina <hina@bouhime.com>
-
-ADD docker/rpm-gpg/ /etc/pki/rpm-gpg/
-ADD docker/jp3cki/jp3cki.repo /etc/yum.repos.d/
-
-RUN rpm --import \
-        /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7 \
-        /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-SCLo \
-        /etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-7 \
-        /etc/pki/rpm-gpg/RPM-GPG-KEY-JP3CKI \
-        /etc/pki/rpm-gpg/RPM-GPG-KEY-remi \
-            && \
-    yum update -y && \
-    yum install -y \
-        centos-release-scl-rh \
+FROM alpine:edge
+ARG GITHUB_TOKEN
+ADD . /var/www/site/
+RUN echo 'http://dl-cdn.alpinelinux.org/alpine/edge/testing' >> /etc/apk/repositories && \
+    apk update && \
+    apk upgrade && \
+    apk add \
+        php7.1 \
+        php7.1-ctype \
+        php7.1-curl \
+        php7.1-dom  \
+        php7.1-fpm \
+        php7.1-gd \
+        php7.1-iconv \
+        php7.1-intl \
+        php7.1-json \
+        php7.1-mbstring \
+        php7.1-mcrypt \
+        php7.1-opcache \
+        php7.1-openssl \
+        php7.1-pdo \
+        php7.1-pdo_pgsql \
+        php7.1-pgsql \
+        php7.1-phar \
+        php7.1-session \
+        php7.1-xml \
+        php7.1-xmlwriter \
+        php7.1-zlib \
+      && \
+    apk add --virtual .deps \
         curl \
-        epel-release \
-        gnupg2 \
-        scl-utils \
-        http://rpms.famillecollet.com/enterprise/7/safe/x86_64/remi-release-7.2-1.el7.remi.noarch.rpm \
-            && \
-    curl -sS https://rpm.nodesource.com/setup_7.x | bash && \
-    yum install -y \
-        ImageMagick \
-        brotli \
-        diff \
-        gcc-c++ \
-        git19-git \
+        gcc \
+        git \
         gzip \
-        h2o \
-        jpegoptim \
+        imagemagick \
         make \
-        nodejs \
-        patch \
-        php71-php-cli \
-        php71-php-fpm \
-        php71-php-gd \
-        php71-php-intl \
-        php71-php-json \
-        php71-php-mbstring \
-        php71-php-mcrypt \
-        php71-php-opcache \
-        php71-php-pdo \
-        php71-php-pecl-msgpack \
-        php71-php-pecl-zip \
-        php71-php-pgsql \
-        php71-php-xml \
-        php71-runtime \
+        musl-dev \
+        nodejs-current \
         pngcrush \
-        rh-postgresql95-postgresql \
-        rh-postgresql95-postgresql-server \
-        supervisor \
         unzip \
-            && \
-    yum clean all && \
-    ln -s /var/opt/rh/rh-postgresql95/lib/pgsql /var/lib/pgsql/rh-postgresql95 && \
-    useradd statink && \
-    chmod 701 /home/statink
-
-ADD docker/env/scl-env.sh /etc/profile.d/
-ADD docker/supervisor/* /etc/supervisord.d/
-ADD docker/jp3cki/0xF6B887CD.asc /home/statink/
-ADD . /home/statink/stat.ink
-RUN chown -R statink:statink /home/statink/stat.ink
-
-USER statink
-RUN gpg --import /home/statink/0xF6B887CD.asc && gpg --refresh-keys
-RUN cd ~statink/stat.ink && bash -c 'source /etc/profile.d/scl-env.sh && make clean && make init-by-archive && rm -f runtime/vendor-archive/*'
-
-USER postgres
-RUN scl enable rh-postgresql95 'initdb --pgdata=/var/opt/rh/rh-postgresql95/lib/pgsql/data --encoding=UNICODE --locale=en_US.UTF8'
-ADD docker/database/pg_hba.conf /var/opt/rh/rh-postgresql95/lib/pgsql/data/pg_hba.conf
-ADD docker/database/password.php /var/opt/rh/rh-postgresql95/lib/pgsql/
-RUN scl enable rh-postgresql95 php71 ' \
-        /opt/rh/rh-postgresql95/root/usr/libexec/postgresql-ctl start -D /var/opt/rh/rh-postgresql95/lib/pgsql/data -s -w && \
-        createuser -DRS statink && \
-        createdb -E UNICODE -O statink -T template0 statink && \
-        php /var/opt/rh/rh-postgresql95/lib/pgsql/password.php && \
-        /opt/rh/rh-postgresql95/root/usr/libexec/postgresql-ctl stop -D /var/opt/rh/rh-postgresql95/lib/pgsql/data -s -m fast'
-
-USER root
-RUN cd ~statink/stat.ink && \
-    bash -c ' \
-        source /etc/profile.d/scl-env.sh && \
-        su postgres -c "/opt/rh/rh-postgresql95/root/usr/libexec/postgresql-ctl start -D /var/opt/rh/rh-postgresql95/lib/pgsql/data -s -w" && \
-        su statink  -c "make" && \
-        su postgres -c "/opt/rh/rh-postgresql95/root/usr/libexec/postgresql-ctl stop -D /var/opt/rh/rh-postgresql95/lib/pgsql/data -s -m fast"'
-
-ADD docker/php/php-config.diff /tmp/
-RUN patch -p1 -d /etc/opt/remi/php71 < /tmp/php-config.diff && rm /tmp/php-config.diff
-
-ADD docker/h2o/h2o.conf /etc/h2o/h2o.conf
-
-CMD /usr/bin/supervisord
-EXPOSE 80
+      && \
+    git clone --depth=1 -b v0.5.2 https://github.com/google/brotli.git /root/brotli && \
+    cd /root/brotli && \
+    make bro && \
+    cp bin/bro /usr/local/bin/ && \
+    cd /root && \
+    rm -rf /root/brotli && \
+    mkdir -p /var/www/site && \
+    curl -SL 'https://getcomposer.org/installer' | php7.1 -- --stable --install-dir=/var/www/site --filename=composer.phar && \
+    cd /var/www/site && \
+    ./composer.phar config -g github-oauth.github.com $GITHUB_TOKEN && \
+    ./composer.phar global require "fxp/composer-asset-plugin:^1.2.0" && \
+    touch composer.lock && \
+    make init && \
+    adduser -h /var/www/site -D -H webapp && \
+    chown -R webapp:webapp /var/www/site && \
+    rm -rf ~/.composer /usr/local/bin/bro && \
+    apk del --purge .deps && \
+    rm -rf /var/cache/apk/* && \
+    cp docker/php-fpm/fpm.conf /etc/php7.1/php-fpm.d/www.conf
+CMD [ "/var/www/site/docker/entrypoint.sh" ]

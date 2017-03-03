@@ -78,7 +78,6 @@ init: \
 	node_modules \
 	$(SIMPLE_CONFIG_TARGETS) \
 	config/cookie-secret.php \
-	config/db.php \
 	resource
 
 init-by-archive: \
@@ -338,17 +337,13 @@ resources/.compiled/app-link-logos/festink.png: resources/app-link-logos/festink
 	convert $<[3] -trim +repage -unsharp 1.5x1+0.7+0.02 -scale x28 $@
 	touch -r $< $@
 
-migrate-db: vendor config/db.php
+migrate-db: vendor
 	./yii migrate/up --interactive=0
 	./yii cache/flush-schema --interactive=0
 
 config/cookie-secret.php: vendor $(SIMPLE_CONFIG_TARGETS)
 	test -f config/cookie-secret.php || ./yii secret/cookie
 	touch config/cookie-secret.php
-
-config/db.php: vendor $(SIMPLE_CONFIG_TARGETS)
-	test -f config/db.php || ./yii secret/db
-	touch config/db.php
 
 config/google-analytics.php:
 	echo '<?php' > config/google-analytics.php
