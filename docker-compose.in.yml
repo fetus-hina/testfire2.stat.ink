@@ -21,6 +21,7 @@ services:
     volumes:
       - "applog:/var/www/site/runtime/logs"
       - "appassets:/var/www/site/web/assets"
+      - "images:/var/www/site/web/images"
     links:
       - "pgsql"
     networks:
@@ -31,6 +32,7 @@ services:
       context: "./docker/h2o"
     volumes:
       - "appassets:/var/www/site/web/assets:ro"
+      - "images:/var/www/site/web/images:ro"
     links:
       - "webapp"
     networks:
@@ -41,6 +43,7 @@ volumes:
   pgdata:
   appassets:
   applog:
+  images:
 
 networks:
   internal:
