@@ -18,6 +18,11 @@ The stat.ink application for [Global Testfire](https://twitter.com/SplatoonJP/st
 
 - Make など一部の基本的な Unix ツール
 
+構成図
+------
+
+![](docker/docker-network.png)
+
 
 環境構築
 --------
