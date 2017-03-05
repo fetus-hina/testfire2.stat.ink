@@ -1,6 +1,6 @@
 #!/bin/sh
 
 cd $(dirname $0)/..
-su -c './yii migrate/up --nointeractive' webapp
-chown webapp:webapp /var/www/site/runtime/logs /var/www/site/web/assets
-php-fpm7.1 --nodaemonize
+chown -R webapp:webapp /var/www/site/runtime /var/www/site/web/assets
+su -c 'scl enable php71 -- ./yii migrate/up --interactive=0' webapp
+/opt/remi/php71/root/usr/sbin/php-fpm --nodaemonize

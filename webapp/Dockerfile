@@ -1,61 +1,67 @@
-FROM alpine:edge
+FROM centos:7
 ARG GITHUB_TOKEN
 ADD . /var/www/site/
-RUN echo 'http://dl-cdn.alpinelinux.org/alpine/edge/testing' >> /etc/apk/repositories && \
-    apk update && \
-    apk upgrade && \
-    apk add \
-        php7.1 \
-        php7.1-ctype \
-        php7.1-curl \
-        php7.1-dom  \
-        php7.1-fpm \
-        php7.1-gd \
-        php7.1-iconv \
-        php7.1-intl \
-        php7.1-json \
-        php7.1-mbstring \
-        php7.1-mcrypt \
-        php7.1-opcache \
-        php7.1-openssl \
-        php7.1-pdo \
-        php7.1-pdo_pgsql \
-        php7.1-pgsql \
-        php7.1-phar \
-        php7.1-session \
-        php7.1-xml \
-        php7.1-xmlwriter \
-        php7.1-zlib \
+RUN yum update -y && \
+    yum install -y \
+        epel-release \
+        scl-utils \
+        http://rpms.famillecollet.com/enterprise/remi-release-7.rpm \
       && \
-    apk add --virtual .deps \
-        curl \
-        gcc \
-        git \
+    curl -sSL https://rpm.nodesource.com/setup_7.x | bash && \
+    curl -sSL https://rpm.fetus.jp/jp3cki.repo -o /etc/yum.repos.d/jp3cki.repo && \
+    yum-config-manager --enable jp3cki jp3cki-h2o-mainline && \
+    yum install -y \
+        ImageMagick \
+        brotli \
+        gcc-c++ \
         gzip \
-        imagemagick \
+        jpegoptim \
         make \
-        musl-dev \
-        nodejs-current \
+        nodejs \
+        patch \
+        php71-php-cli \
+        php71-php-fpm \
+        php71-php-gd \
+        php71-php-intl \
+        php71-php-json \
+        php71-php-mbstring \
+        php71-php-mcrypt \
+        php71-php-opcache \
+        php71-php-pdo \
+        php71-php-pecl-msgpack \
+        php71-php-pecl-zip \
+        php71-php-pgsql \
+        php71-php-xml \
+        php71-runtime \
         pngcrush \
         unzip \
       && \
-    git clone --depth=1 -b v0.5.2 https://github.com/google/brotli.git /root/brotli && \
-    cd /root/brotli && \
-    make bro && \
-    cp bin/bro /usr/local/bin/ && \
-    cd /root && \
-    rm -rf /root/brotli && \
+    rm -rf /etc/yum.repos.d/jp3cki.repo && \
     mkdir -p /var/www/site && \
-    curl -SL 'https://getcomposer.org/installer' | php7.1 -- --stable --install-dir=/var/www/site --filename=composer.phar && \
+    scl enable php71 "curl -SL 'https://getcomposer.org/installer' | php -- --stable --install-dir=/var/www/site --filename=composer.phar" && \
     cd /var/www/site && \
-    ./composer.phar config -g github-oauth.github.com $GITHUB_TOKEN && \
-    ./composer.phar global require "fxp/composer-asset-plugin:^1.2.0" && \
+    scl enable php71 "./composer.phar config -g github-oauth.github.com $GITHUB_TOKEN" && \
+    scl enable php71 "./composer.phar global require 'fxp/composer-asset-plugin:^1.2.0'" && \
     touch composer.lock && \
-    make init && \
-    adduser -h /var/www/site -D -H webapp && \
+    scl enable php71 "make init" && \
+    useradd  -d /var/www/site -M webapp && \
     chown -R webapp:webapp /var/www/site && \
-    rm -rf ~/.composer /usr/local/bin/bro && \
-    apk del --purge .deps && \
-    rm -rf /var/cache/apk/* && \
-    cp docker/php-fpm/fpm.conf /etc/php7.1/php-fpm.d/www.conf
+    yum remove -y \
+        ImageMagick \
+        brotli \
+        epel-release \
+        gcc \
+        make \
+        nodejs \
+        nodesource-release \
+        patch \
+        remi-release \
+        unzip \
+      && \
+    package-cleanup --quiet --leaves | xargs yum remove -y && \
+    package-cleanup --quiet --leaves | xargs yum remove -y && \
+    rm -rf ~/.composer && \
+    yum clean all && \
+    cp docker/php-fpm/fpm.conf /etc/opt/remi/php71/php-fpm.d/www.conf
 CMD [ "/var/www/site/docker/entrypoint.sh" ]
+EXPOSE 9000
