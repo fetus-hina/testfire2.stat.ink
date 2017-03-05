@@ -23,21 +23,9 @@
         Battles: <span class="dseg-counter" data-type="battles">{{Battle::getRoughCount()|default:'?'|escape}}</span>
       </span>
     </p>
-    {{if $enableAnniversary}}
-      <p class="text-center" style="font-size:150%">
-        <span class="emoji">&#x1F382;</span>&#32;
-        stat.ink: Happy First Anniversary!&#32;
-        {{if $app->language === 'ja-JP'}}
-          9/25
-        {{else}}
-          25th Sept.
-        {{/if}}&#32;
-        <span class="emoji">&#x1F382;</span>
-      </p>
-    {{/if}}
     {{\app\assets\PaintballAsset::register($this)|@void}}
     <h1 class="paintball" style="font-size:42px">
-      {{$app->name|escape}}
+      stat.ink<span style="font-size:21px"> for Global Testfire of Splatoon 2</span>
     </h1>
     <p>
       {{'Staaaay Fresh!'|translate:'app'|escape}}
@@ -45,9 +33,7 @@
 
     {{if $app->language === 'ja-JP'}}
       <p class="bg-warning" style="padding:15px;border-radius:10px">
-        バトル登録機能をリリースしました。ログイン後、バトル登録ボタンから登録できます。<br>
-        iOS等をご利用の方、PCでキャプチャボードを使用出来ない方、どうぞご利用ください。<br>
-        (Androidをご利用の方には引き続きイカレコをオススメします)
+        <a href="https://stat.ink/">Splatoon 1 用の統計サイト stat.ink はこちらです。</a>
       </p>
     {{/if}}
 
@@ -59,16 +45,7 @@
         {{$ident = $app->user->identity}}
         <a href="{{url route="show/user" screen_name=$ident->screen_name}}">{{'Your Battles'|translate:'app'|escape}}</a>
       {{/if}} | <a href="{{url route="site/start"}}">{{'Getting Started'|translate:'app'|escape}}</a> |
-      &#32;<a href="{{url route="site/faq"}}">{{"FAQ"|translate:'app'|escape}}</a> |
-      &#32;<a href="{{url route="entire/users"}}">{{"Stats: User Activity"|translate:'app'|escape}}</a><br>
-
-      <a href="{{url route="entire/kd-win"}}">{{"Stats: K/D vs Win %"|translate:'app'|escape}}</a> |
-      &#32;<a href="{{url route="entire/knockout"}}">{{"Stats: Knockout Ratio"|translate:'app'|escape}}</a> |
-      &#32;<a href="{{url route="entire/weapons"}}">{{"Stats: Weapons"|translate:'app'|escape}}</a> |
-      &#32;<a href="{{url route="stage/index"}}">{{"Stats: Stages"|translate:'app'|escape}}</a> |
-      &#32;<a href="{{url route="download-stats/index"}}">統計情報ダウンロード(開発中)</a>
-    </p>
-    <p>
+      &#32;<a href="{{url route="site/faq"}}">{{"FAQ"|translate:'app'|escape}}</a><br>
       <a href="{{url route="site/color"}}">{{'About support for color-blindness'|translate:'app'|escape}}</a> |
       &#32;<a href="{{url route="site/privacy"}}#image">{{'About image sharing with the IkaLog team'|translate:'app'|escape}}</a>
     </p>
