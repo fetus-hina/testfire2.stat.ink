@@ -1,9 +1,9 @@
 <?php
 $params = require(__DIR__ . '/params.php');
 $config = [
-    'name' => 'stat.ink',
+    'name' => 'testfire2.stat.ink',
     'version' => require(__DIR__ . '/version.php'),
-    'id' => 'statink',
+    'id' => 'statink-testfire2',
     'language' => 'ja-JP',
     'timeZone' => 'Asia/Tokyo',
     'basePath' => dirname(__DIR__),
@@ -78,16 +78,6 @@ $config = [
         ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
-            'serializer' => extension_loaded('msgpack')
-                ? [
-                    function ($value) {
-                        return @gzencode(msgpack_pack($value), 1, FORCE_GZIP);
-                    },
-                    function ($value) {
-                        return @msgpack_unpack(gzdecode($value));
-                    },
-                ]
-                : null,
         ],
         'schemaCache' => [
             'class' => 'yii\caching\FileCache',
@@ -127,11 +117,7 @@ $config = [
         'autoAlias' => [
             'class' => 'app\components\AutoAlias',
             'aliases' => [
-                '@imageurl' => function () {
-                    return (\Yii::$app->request->hostInfo === 'https://stat.ink')
-                        ? 'https://img.stat.ink'
-                        : '@web/images';
-                },
+                '@imageurl' => '@web/images',
                 '@jdenticon' => 'https://jdenticon.stat.ink',
             ],
         ],
