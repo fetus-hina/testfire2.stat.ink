@@ -9,7 +9,7 @@ RUN yum update -y && \
       && \
     curl -sSL https://rpm.nodesource.com/setup_7.x | bash && \
     curl -sSL https://rpm.fetus.jp/jp3cki.repo -o /etc/yum.repos.d/jp3cki.repo && \
-    yum-config-manager --enable jp3cki jp3cki-h2o-mainline && \
+    yum-config-manager --enable jp3cki && \
     yum install -y \
         ImageMagick \
         brotli \

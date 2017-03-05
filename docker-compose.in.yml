@@ -26,24 +26,21 @@ services:
     networks:
       - "internal"
 
-  # httpd:
-  #   build:
-  #     context: "./docker/h2o"
-  #   volumes:
-  #     - "appassets:/var/www/site/web/assets:ro"
-  #   links:
-  #     - "webapp"
-  #   ports:
-  #     - "80/tcp"
-  #   networks:
-  #     - "internal"
-  #     - "expose"
+  httpd:
+    build:
+      context: "./docker/h2o"
+    volumes:
+      - "appassets:/var/www/site/web/assets:ro"
+    links:
+      - "webapp"
+    networks:
+      - "internal"
+      - "expose"
 
 volumes:
   pgdata:
   appassets:
   applog:
-  
 
 networks:
   internal:
