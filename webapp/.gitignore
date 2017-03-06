@@ -8,7 +8,6 @@
 /config/backup-s3.php
 /config/backup-secret.php
 /config/cookie-secret.php
-/config/db.php
 /config/debug-ips.php
 /config/google-adsense.php
 /config/google-analytics.php
