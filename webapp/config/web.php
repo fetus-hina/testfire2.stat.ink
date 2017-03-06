@@ -1,7 +1,7 @@
 <?php
 $params = require(__DIR__ . '/params.php');
 $config = [
-    'name' => 'testfire2.stat.ink',
+    'name' => 'stat.ink (testfire2)',
     'version' => require(__DIR__ . '/version.php'),
     'id' => 'statink-testfire2',
     'language' => 'ja-JP',
