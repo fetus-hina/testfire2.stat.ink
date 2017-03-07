@@ -135,35 +135,14 @@ POST /api/v1/battle
 
 * `lobby` : ゲームモードを次のうちいずれかの値で指定します。
     - `standard` : 通常モード（いわゆる「野良」またはレギュラーフレンド合流）
-    - `squad_2` : タッグマッチ（2人タッグ）
-    - `squad_3` : タッグマッチ（3人タッグ）
-    - `squad_4` : タッグマッチ（4人タッグ）
-    - `private` : プライベートマッチ
-    - `fest` : フェス(similar to `standard`)
 
 * `rule` : ルールを次のうちいずれかの値で指定します。完全なリストはルール取得 API から取得してください。
     - `nawabari` : ナワバリバトル
-    - `area` : ガチバトル／ガチエリア
-    - `yagura` : ガチバトル／ガチヤグラ
-    - `hoko` : ガチバトル／ガチホコ
 
 * `map` : マップを次のうちいずれかの値で指定します。完全なリストはマップ取得 API から取得してください。
-    - `anchovy` : アンチョビットゲームズ
-    - `arowana` : アロワナモール
-    - `bbass` : Bバスパーク
-    - `dekaline` : デカライン高架下（ver 2）
-    - `hakofugu` : ハコフグ倉庫
-    - `hirame` : ヒラメが丘団地
-    - `hokke` : ホッケふ頭
-    - `kinmedai` : キンメダイ美術館
-    - `mahimahi` : マヒマヒリゾート&スパ
-    - `masaba` : マサバ海峡大橋
-    - `mongara` : モンガラキャンプ場
-    - `mozuku` : モズク農園
-    - `negitoro` : ネギトロ炭鉱
-    - `shionome` : シオノメ油田
-    - `shottsuru` : ショッツル鉱山
-    - `tachiuo` : タチウオパーキング
+    - `battera` : バッテラストリート
+    - `fujitsubo` : フジツボスポーツクラブ
+    - `gangaze` :  ガンガゼ野外音楽堂
 
 * `weapon` : 自分のブキを `wakaba` `momiji` 等のあらかじめ定義された値で指定します。指定する値は[一覧ページ](https://stat.ink/api-info/weapon)かブキ取得APIから取得してください。
 
@@ -322,26 +301,17 @@ JSON または MessagePack で送信する場合、 object(JSON), map(MessagePac
 
 * サブウェポン
 
-    - `chasebomb` : チェイスボム
+    - `curlingbomb` : カーリングボム
     - `kyubanbomb` : キューバンボム
     - `quickbomb` : クイックボム
     - `splashbomb` : スプラッシュボム
-    - `splashshield` : スプラッシュシールド
-    - `sprinkler` : スプリンクラー
-    - `trap` : トラップ
 
 * スペシャル
 
-    - `daioika` : ダイオウイカ
-    - `megaphone` : メガホンレーザー
-    - `supershot` : スーパーショット
-    - `tornado` : トルネード
-
-* ガチホコバトル（定義値は仮）
-
-    - `hoko_shot` : ガチホコショット
-    - `hoko_barrier` : ガチホコバリアの爆発
-    - `hoko_inksplode` : ガチホコ時間切れ爆発
+    - `chakuchi` : スーパーチャクチ
+    - `jetpack` : ジェットパック
+    - `missile` : マルチミサイル
+    - `presser` : ハイパープレッサー
 
 * 場外
 
@@ -351,7 +321,6 @@ JSON または MessagePack で送信する場合、 object(JSON), map(MessagePac
 
 * その他
 
-    - `propeller` : プロペラから飛び散ったインク（アンチョビットゲームズ）
     - `unknown` : 死因不明
 
 ----
