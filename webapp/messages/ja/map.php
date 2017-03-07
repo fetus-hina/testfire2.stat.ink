@@ -1,6 +1,6 @@
 <?php
 /**
- * @copyright Copyright (C) 2015-2016 AIZAWA Hina
+ * @copyright Copyright (C) 2015-2017 AIZAWA Hina
  * @license https://github.com/fetus-hina/stat.ink/blob/master/LICENSE MIT
  * @author AIZAWA Hina <hina@bouhime.com>
  */
@@ -8,37 +8,11 @@
 return [
     'Any Stage' => 'すべてのステージ',
 
-    'Ancho-V Games' => 'アンチョビットゲームズ',
-    'Arowana Mall'  => 'アロワナモール',
-    'Blackbelly Skatepark' => 'Bバスパーク',
-    'Bluefin Depot' => 'ネギトロ炭鉱',
-    'Camp Triggerfish' => 'モンガラキャンプ場',
-    'Flounder Heights' => 'ヒラメが丘団地',
-    'Hammerhead Bridge' => 'マサバ海峡大橋',
-    'Kelp Dome' => 'モズク農園',
-    'Mahi-Mahi Resort' => 'マヒマヒリゾート&スパ',
-    'Moray Towers' => 'タチウオパーキング',
-    'Museum d\'Alfonsino' => 'キンメダイ美術館',
-    'Piranha Pit' => 'ショッツル鉱山',
-    'Port Mackerel' => 'ホッケふ頭',
-    'Saltspray Rig' => 'シオノメ油田',
-    'Urchin Underpass' => 'デカライン高架下',
-    'Walleye Warehouse' => 'ハコフグ倉庫',
+    'Diadema Amphitheater' => 'ガンガゼ野外音楽堂',
+    'Musselforge Fitness' => 'フジツボスポーツクラブ',
+    'The Reef' => 'バッテラストリート',
 
-    'Ancho-V' => 'アンチョビ',
-    'Bridge' => 'マサバ',
-    'Camp' => 'モンガラ',
-    'Depot' => 'ネギトロ',
-    'Dome' => 'モズク',
-    'Heights' => 'ヒラメ',
-    'Mahi-Mahi' => 'マヒマヒ',
-    'Mall'  => 'アロワナ',
-    'Museum' => 'キンメダイ',
-    'Pit' => 'ショッツル',
-    'Port' => 'ホッケ',
-    'Rig' => 'シオノメ',
-    'Skatepark' => 'Bバス',
-    'Towers' => 'タチウオ',
-    'Underpass' => 'デカライン',
-    'Warehouse' => 'ハコフグ',
+    'Amphitheater' => 'ガンガゼ',
+    'Fitness' => 'フジツボ',
+    'Reef' => 'バッテラ',
 ];
