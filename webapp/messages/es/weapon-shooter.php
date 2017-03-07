@@ -45,6 +45,7 @@ return [
     'Rapid Blaster Pro' => 'Superdevastador',
     'Rapid Blaster' => 'Devastador exprés',
     'Splash-o-matic' => 'Marcador fino',
+    'Splat Dualies' => '',
     'Splattershot Jr.' => 'Lanzatintas novato',
     'Splattershot Pro' => 'Lanzatintas plus',
     'Splattershot' => 'Lanzatintas',

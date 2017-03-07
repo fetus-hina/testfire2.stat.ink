@@ -45,6 +45,7 @@ return [
     'Rapid Blaster Pro' => 'Rブラスターエリート',
     'Rapid Blaster' => 'ラピッドブラスター',
     'Splash-o-matic' => 'シャープマーカー',
+    'Splat Dualies' => 'スプラマニューバー',
     'Splattershot Jr.' => 'わかばシューター',
     'Splattershot Pro' => 'プライムシューター',
     'Splattershot' => 'スプラシューター',

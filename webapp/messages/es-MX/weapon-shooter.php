@@ -45,6 +45,7 @@ return [
     'Rapid Blaster Pro' => 'Turbolanzamotas Pro',
     'Rapid Blaster' => 'Turbolanzamotas',
     'Splash-o-matic' => 'Plumón',
+    'Splat Dualies' => '',
     'Splattershot Jr.' => 'Rociador básico',
     'Splattershot Pro' => 'Rociador Pro',
     'Splattershot' => 'Rociador',
