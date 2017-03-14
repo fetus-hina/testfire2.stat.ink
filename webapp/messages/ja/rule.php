@@ -10,6 +10,7 @@ return [
     'All of {0}' => 'すべての{0}',
     'Any Lobby' => 'すべてのロビー',
     'Any Mode' => 'すべてのルール',
+    'Global Testfire' => '試射会',
     'Private Battle' => 'プライベートマッチ',
     'Private' => 'プラベ',
     'RM' => 'ホコ',

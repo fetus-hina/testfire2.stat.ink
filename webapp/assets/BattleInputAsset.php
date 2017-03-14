@@ -23,7 +23,6 @@ class BattleInputAsset extends AssetBundle
         'yii\bootstrap\BootstrapAsset',
         'yii\bootstrap\BootstrapPluginAsset',
         'app\assets\BowserAsset',
-        'app\assets\DsegFontAsset',
         'app\assets\UuidJsAsset',
     ];
 }
