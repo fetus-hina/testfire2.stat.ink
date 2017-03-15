@@ -20,16 +20,6 @@
                     }
                     break;
 
-                case 'Global Testfire':
-                    switch (lang) {
-                        case 'ja-JP':
-                            return '試射会';
-
-                        default:
-                            return text;
-                    }
-                    break;
-
                 default:
                     return text;
             }
@@ -37,7 +27,7 @@
 
         var $modal = $('#inputModal');
         var $selectWeapons = $('.battle-input-form--weapons', $modal);
-        var $selectStages = $('.battle-input-form--stages', $modal);
+        var $buttonStages = $('.battle-input-form--stages', $modal);
         var $buttonResults = $('.battle-input-form--result', $modal);
         var $regularSubmit = $('#battle-input-form--regular--submit', $modal);
 
@@ -83,28 +73,36 @@
                     $.each(['regular'], function (i, modeKey) {
                         // ルールを見た目用と電文用の<input>に正しく設定する
                         // （主にガチマッチ用。レギュラーも同じ仕組みにしておけば安心なのでそうしている）
-                        var rule = {
-                            key: 'nawabari',
-                            name: translate('Global Testfire'),
-                        };
-                        var $inputs = $('input', $modal);
-                        $inputs
-                            .filter(function () { return $(this).attr('id') === 'battle-input-form--' + modeKey + '--rule'; })
-                            .val(rule.key);
-                        $inputs
-                            .filter(function () { return $(this).attr('id') === 'battle-input-form--' + modeKey + '--rule--label'; })
-                            .val(rule.name);
-                    });
+                        if (json.current[modeKey] && json.current[modeKey].rule) {
+                            var rule = json.current[modeKey].rule;
+                            var $inputs = $('input', $modal);
+                            $inputs
+                                .filter(function () { return $(this).attr('id') === 'battle-input-form--' + modeKey + '--rule'; })
+                                .val(rule.key);
+                            $inputs
+                                .filter(function () { return $(this).attr('id') === 'battle-input-form--' + modeKey + '--rule--label'; })
+                                .val(rule.name);
+                        }
 
-                    // ステージ一覧の <select> の <option> を作成する
-                    $selectStages.each(function () {
-                        var $this = $(this);
-                        $this.empty();
-                        $.each(json.maps, function (key, nameInfo) {
-                            $this.append(
-                                $('<option>', {label: nameInfo.name, value:key}).text(nameInfo.name)
-                            );
-                        });
+                        // ステージ用の <button> のラベルを正しく設定する
+                        // 広い画面ではフルのステージ名を、狭い画面では短縮のステージ名を表示する
+                        if (json.current[modeKey] && json.current[modeKey].maps.length) {
+                            var $buttons = $buttonStages.filter(function () {
+                                return $(this).attr('data-game-mode') === modeKey;
+                            });
+                            $buttons.each(function (index) {
+                                var $this = $(this);
+                                var key = json.current[modeKey].maps[index];
+                                if (key) {
+                                    $this
+                                        .attr('data-value', key)
+                                        .attr('data-image', json.maps[key].image) // 今のところ使う予定なし
+                                        .empty()
+                                        .append($('<span>', {'class': 'hidden-xs'}).text(json.maps[key].name))
+                                        .append($('<span>', {'class': 'visible-xs-inline'}).text(json.maps[key].shortName));
+                                }
+                            });
+                        }
                     });
 
                     // ブキ一覧の <select> の <option> を作成する
@@ -256,6 +254,22 @@
             updateUuidRegular();
         });
 
+        // ステージボタンがクリックされた時、電文用の <input type="hidden"> を更新する
+        // また、class を変更して選択されているかのように見せる
+        $buttonStages.click(function () {
+            var $this = $(this);
+            var $input = $('input', $modal).filter(function () { return $(this).attr('id') === $this.attr('data-target'); });
+            $input.val($this.attr('data-value')).change();
+
+            $buttonStages
+                .filter(function () { return $this.attr('data-target') === $(this).attr('data-target'); })
+                .removeClass('btn-success')
+                .addClass('btn-default');
+            $this
+                .removeClass('btn-default')
+                .addClass('btn-success');
+        });
+
         // 勝ち/負けボタンがクリックされた時、電文用の <input type="hidden"> を更新する
         // また、class を変更して選択されているかのように見せる
         $buttonResults.click(function () {
@@ -298,6 +312,10 @@
                     $.each(clear, function (i, id) {
                         $('#' + id).val('');
                     });
+                    $buttonStages
+                        .filter('[data-target="battle-input-form--regular--stage"]')
+                        .removeClass('btn-success')
+                        .addClass('btn-default');
                     $buttonResults
                         .filter('[data-target="battle-input-form--regular--result"]')
                         .removeClass('btn-info')

@@ -65,8 +65,17 @@
 
                 <!--h5>{{'Stages'|translate:'app'|escape}}</h5-->
                 <div class="form-group">
-                  <select class="form-control battle-input-form--stages" id="battle-input-form--regular--stage" name="map">
-                  </select>
+                  <input type="hidden" id="battle-input-form--regular--stage" name="map" value="">
+                  <div class="row">
+                    <div class="col-xs-6">
+                      <button type="button" class="btn btn-default btn-block battle-input-form--stages" data-game-mode="regular" data-target="battle-input-form--regular--stage">
+                      </button>
+                    </div>
+                    <div class="col-xs-6">
+                      <button type="button" class="btn btn-default btn-block battle-input-form--stages" data-game-mode="regular" data-target="battle-input-form--regular--stage">
+                      </button>
+                    </div>
+                  </div>
                 </div>
 
                 <!--h5>{{'Result'|translate:'app'|escape}}</h5-->
