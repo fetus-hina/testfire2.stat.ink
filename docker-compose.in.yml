@@ -22,6 +22,7 @@ services:
       - "applog:/var/www/site/runtime/logs"
       - "appassets:/var/www/site/web/assets"
       - "images:/var/www/site/web/images"
+      - "profile-images:/var/www/site/web/profile-images"
     links:
       - "pgsql"
     networks:
@@ -33,6 +34,7 @@ services:
     volumes:
       - "appassets:/var/www/site/web/assets:ro"
       - "images:/var/www/site/web/images:ro"
+      - "profile-images:/var/www/site/web/profile-images:ro"
     links:
       - "webapp"
     networks:
@@ -44,6 +46,7 @@ volumes:
   appassets:
   applog:
   images:
+  profile-images:
 
 networks:
   internal:
