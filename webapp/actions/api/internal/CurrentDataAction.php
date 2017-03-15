@@ -13,6 +13,7 @@ use app\components\helpers\Battle as BattleHelper;
 use app\models\GameMode;
 use app\models\Map;
 use app\models\PeriodMap;
+use app\models\Rule;
 use app\models\UserWeapon;
 use app\models\Weapon;
 use app\models\WeaponType;
@@ -62,17 +63,22 @@ class CurrentDataAction extends ViewAction
             ];
         };
 
-        $now = microtime(true);
-        $period = BattleHelper::calcPeriod((int)$now);
-        $range = BattleHelper::periodToRange($period);
         return [
             'period' => [
-                'id' => $period,
-                'next' => max($range[1] - $now, 0), // in sec
+                'id' => null,
+                'next' => null,
             ],
             'fest'    => false,
-            'regular' => $info(PeriodMap::findCurrentRegular()->all()),
-            'gachi'   => $info(PeriodMap::findCurrentGachi()->all()),
+            'regular' => [
+                'rule' => [
+                    'key' => 'nawabari',
+                    'name' => Yii::t('app-rule', Rule::findOne(['key' => 'nawabari'])->name),
+                ],
+                'maps' => [
+                    'battera',
+                    'fujitsubo',
+                ],
+            ],
         ];
     }
 
@@ -119,7 +125,7 @@ class CurrentDataAction extends ViewAction
     {
         $ret = [];
         foreach (WeaponType::find()->orderBy('[[id]]')->asArray()->all() as $type) {
-            $ret[] = [
+            $tmp = [
                 'name' => Yii::t('app-weapon', $type['name']),
                 'list' => (function (array $type) : array {
                     $tmp = [];
@@ -134,26 +140,15 @@ class CurrentDataAction extends ViewAction
                     return $tmp;
                 })($type),
             ];
+            if ($tmp['list']) {
+                $ret[] = $tmp;
+            }
         }
         return $ret;
     }
 
     public function getFavoriteWeapons()
     {
-        if (!$user = Yii::$app->user->identity) {
-            return [];
-        }
-        $list = $user->getUserWeapons()
-            ->with('weapon')
-            ->orderBy('[[count]] DESC')
-            ->limit(10)
-            ->asArray()
-            ->all();
-        return array_map(function (array $uw) : array {
-            return [
-                'key' => $uw['weapon']['key'],
-                'name' => Yii::t('app-weapon', $uw['weapon']['name']),
-            ];
-        }, $list);
+        return [];
     }
 }
