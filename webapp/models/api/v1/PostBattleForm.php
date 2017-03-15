@@ -460,21 +460,6 @@ class PostBattleForm extends Model
             return;
         }
 
-        $value = $this->$attr;
-        if (is_string($value)) {
-            if (preg_match('/^v?([0-9.]+)/', trim($value), $match)) {
-                $version = SplatoonVersion::find()
-                    ->andWhere(['or',
-                        ['tag' => $match[1]],
-                        ['name' => $match[1]],
-                    ])
-                    ->one();
-                if ($version) {
-                    $this->$attr = $version->tag;
-                    return;
-                }
-            }
-        }
         $this->$attr = null;
     }
 
