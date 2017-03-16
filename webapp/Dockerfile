@@ -1,5 +1,6 @@
 FROM centos:7
 ARG GITHUB_TOKEN
+ARG GIT_REVISION="Unknown"
 ADD . /var/www/site/
 RUN yum update -y && \
     yum install -y \
@@ -40,6 +41,7 @@ RUN yum update -y && \
     mkdir -p /var/www/site && \
     scl enable php71 "curl -SL 'https://getcomposer.org/installer' | php -- --stable --install-dir=/var/www/site --filename=composer.phar" && \
     cd /var/www/site && \
+    echo $GIT_REVISION > config/git-revision.txt && \
     scl enable php71 "./composer.phar config -g github-oauth.github.com $GITHUB_TOKEN" && \
     scl enable php71 "./composer.phar global require 'fxp/composer-asset-plugin:^1.2.0'" && \
     touch composer.lock && \

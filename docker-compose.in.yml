@@ -17,7 +17,8 @@ services:
     build:
       context: "./webapp"
       args:
-        GITHUB_TOKEN: "<<GITHUB_TOKEN>>"
+        GITHUB_TOKEN: "%GITHUB_TOKEN%"
+        GIT_REVISION: "%GIT_REVISION%"
     volumes:
       - "applog:/var/www/site/runtime/logs"
       - "appassets:/var/www/site/web/assets"

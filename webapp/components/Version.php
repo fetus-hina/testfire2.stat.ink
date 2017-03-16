@@ -43,6 +43,33 @@ class Version
         if (self::$revision !== null && self::$shortRevision !== null) {
             return;
         }
+        if (static::fetchRevisionByStaticFile()) {
+            return;
+        }
+        if (static::fetchRevisionByCommand()) {
+            return;
+        }
+        self::$revision = false;
+        self::$shortRevision = false;
+    }
+
+    private static function fetchRevisionByStaticFile() : bool
+    {
+        $path = Yii::getAlias('@app/config/git-revision.txt');
+        if (!file_exists($path)) {
+            return false;
+        }
+        $line = trim(@file_get_contents($path));
+        if (!preg_match('/^[0-9a-f]+$/', $line)) {
+            return false;
+        }
+        self::$revision = $line;
+        self::$shortRevision = substr($line, 0, 7);
+        return true;
+    }
+
+    private static function fetchRevisionByCommand() : bool
+    {
         try {
             if (!$line = self::getGitLog('%H:%h')) {
                 throw new Exception();
@@ -54,9 +81,9 @@ class Version
             self::$revision = $revisions[0];
             self::$shortRevision = $revisions[1];
         } catch (Exception $e) {
-            self::$revision = false;
-            self::$shortRevision = false;
+            return false;
         }
+        return true;
     }
 
     private static function getGitLog($format)
