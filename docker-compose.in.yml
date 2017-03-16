@@ -24,7 +24,7 @@ services:
       - "appassets:/var/www/site/web/assets"
       - "images:/var/www/site/web/images"
       - "profile-images:/var/www/site/web/profile-images"
-      - "image-archive:/var/www/site/runtime/image-archive"
+      - "/mnt/storage1/testfire2-uploads:/var/www/site/runtime/image-archive"
     links:
       - "pgsql"
     networks:
