@@ -1,2 +1,4 @@
 mapping:
-    "AIZAWA, Hina <hina@bouhime.com>": "AIZAWA Hina <hina@bouhime.com>"
+  "AIZAWA Hina <hina@bouhime.com>":
+    - "AIZAWA, Hina <hina@bouhime.com>"
+    - "fetus <fetus@verniy.single-quote.com>"

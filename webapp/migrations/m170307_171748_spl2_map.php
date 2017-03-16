@@ -1,4 +1,10 @@
 <?php
+/**
+ * @copyright Copyright (C) 2015-2017 AIZAWA Hina
+ * @license https://github.com/fetus-hina/stat.ink/blob/master/LICENSE MIT
+ * @author AIZAWA Hina <hina@bouhime.com>
+ */
+
 use yii\db\Migration;
 
 class m170307_171748_spl2_map extends Migration
