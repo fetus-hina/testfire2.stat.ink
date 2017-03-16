@@ -7,7 +7,7 @@
         {{$_revS = \app\components\Version::getShortRevision()}}
         {{$app->name|escape}} Version {{$_ver|escape}}
         {{if $_revL && $_revS}}
-          , Revision <a href="https://github.com/fetus-hina/stat.ink/tree/{{$_revL|escape:url|escape}}">{{$_revS|escape}}</a>
+          , Revision <a href="https://github.com/fetus-hina/testfire2.stat.ink/tree/{{$_revL|escape:url|escape}}">{{$_revS|escape}}</a>
         {{/if}}
       </div>
       <div class="footer-author">
