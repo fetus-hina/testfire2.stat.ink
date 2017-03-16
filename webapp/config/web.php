@@ -108,6 +108,7 @@ $config = [
             'fileMode' => 0600,
         ],
         'session' => [
+            'class' => 'yii\web\DbSession',
             'timeout' => 86400,
             'cookieParams' => [
                 'httponly' => true,
