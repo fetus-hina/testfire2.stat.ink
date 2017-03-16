@@ -14,7 +14,6 @@ RUN yum update -y && \
         ImageMagick \
         brotli \
         gcc-c++ \
-        git \
         gzip \
         jpegoptim \
         make \
