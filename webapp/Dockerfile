@@ -47,7 +47,6 @@ RUN yum update -y && \
     useradd  -d /var/www/site -M webapp && \
     chown -R webapp:webapp /var/www/site && \
     yum remove -y \
-        ImageMagick \
         brotli \
         epel-release \
         gcc \
