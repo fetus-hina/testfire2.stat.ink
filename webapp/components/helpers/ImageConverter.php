@@ -12,8 +12,8 @@ use Yii;
 
 class ImageConverter
 {
-    const OUT_WIDTH = 640;
-    const OUT_HEIGHT = 360;
+    const OUT_WIDTH = 1280;
+    const OUT_HEIGHT = 720;
 
     const JPEG_QUALITY = 90;
 
