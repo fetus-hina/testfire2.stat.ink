@@ -57,6 +57,21 @@
                   </div>
                 </div>
 
+                <div class="row">
+                  <div class="col-xs-6">
+                    <div class="form-group">
+                      <select id="battle-input-form--regular--display" name="display" class="form-control">
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-xs-6">
+                    <div class="form-group">
+                      <select id="battle-input-form--regular--controller" name="controller" class="form-control">
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
                 <!--h5>{{'Weapon'|translate:'app'|escape}}</h5-->
                 <div class="form-group">
                   <select class="form-control battle-input-form--weapons" id="battle-input-form--regular--weapon" name="weapon">

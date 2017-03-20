@@ -126,6 +126,24 @@
 
         <table class="table table-striped" id="battle">
           <tbody>
+            {{if $battle->display || $battle->controller}}
+              <tr>
+                <th>
+                  {{'Playing Style'|translate:'app'|escape}}
+                </th>
+                <td>
+                  {{if $battle->display}}
+                    {{$battle->display->name|translate:'app-switch'|escape}}
+                    {{if $battle->controller}}
+                      ,&#32;
+                    {{/if}}
+                  {{/if}}
+                  {{if $battle->controller}}
+                    {{$battle->controller->name|translate:'app-switch'|escape}}
+                  {{/if}}
+                </td>
+              </tr>
+            {{/if}}
             {{if $battle->lobby}}
               <tr>
                 <th>

@@ -268,7 +268,18 @@ POST /api/v1/battle
     - ただし、`agent` が `IkaLog` の場合に限り `yes` として取り扱います。
     - 互換性のためであり、この挙動に依存するのは推奨しません。
 
-* `gear` : ギアやギアパワーをして居します。詳細は後述します。
+* `gear` : ギアやギアパワーを指定します。詳細は後述します。
+
+* `display` : ディスプレイの接続状況を指定します。
+    - `tv` : TVモード
+    - `tabletop` : テーブルモード
+    - `handheld` : 携帯モード
+
+* `controller` : 使用するコントローラを指定します。
+    - `procon` : Proコントローラ
+    - `joycon_with_grip` : Joy-Con（グリップに接続）
+    - `joycon_wo_grip` : Joy-Con（グリップ接続なし）
+    - `handheld` : 携帯モード（本体に接続）
 
 ----
 

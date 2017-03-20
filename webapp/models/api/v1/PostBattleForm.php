@@ -8,10 +8,8 @@
 namespace app\models\api\v1;
 
 use Yii;
-use yii\base\Model;
-use yii\web\UploadedFile;
-use app\components\helpers\db\Now;
 use app\components\helpers\CriticalSection;
+use app\components\helpers\db\Now;
 use app\models\Ability;
 use app\models\AgentAttribute;
 use app\models\Battle;
@@ -20,7 +18,9 @@ use app\models\BattleEvents;
 use app\models\BattleImage;
 use app\models\BattleImageType;
 use app\models\BattlePlayer;
+use app\models\ControllerMode;
 use app\models\DeathReason;
+use app\models\DisplayMode;
 use app\models\FestTitle;
 use app\models\GearConfiguration;
 use app\models\GearConfigurationSecondary;
@@ -32,6 +32,8 @@ use app\models\Rule;
 use app\models\SplatoonVersion;
 use app\models\User;
 use app\models\Weapon;
+use yii\base\Model;
+use yii\web\UploadedFile;
 
 class PostBattleForm extends Model
 {
@@ -97,6 +99,8 @@ class PostBattleForm extends Model
     public $uuid;
     public $max_kill_combo;
     public $max_kill_streak;
+    public $display;
+    public $controller;
 
     public function rules()
     {
@@ -196,7 +200,15 @@ class PostBattleForm extends Model
             [['agent_variables'], 'validateAgentVariables'],
             [['agent_game_version'], 'validateAndFixAgentGameVersion'],
             [['agent_game_version_date'], 'validateAndFixAgentGameVersionDate'],
-            [['max_kill_combo', 'max_kill_streak'], 'integer', 'min' => 0]
+            [['max_kill_combo', 'max_kill_streak'], 'integer', 'min' => 0],
+            [['display'], 'exist',
+                'targetClass' => DisplayMode::class,
+                'targetAttribute' => 'key',
+            ],
+            [['controller'], 'exist',
+                'targetClass' => ControllerMode::class,
+                'targetAttribute' => 'key',
+            ],
         ];
     }
 
@@ -547,6 +559,8 @@ class PostBattleForm extends Model
         $o->link_url        = (string)$this->link_url == '' ? null : (string)$this->link_url;
         $o->note            = $this->note;
         $o->private_note    = $this->private_note;
+        $o->display_id      = $this->display ? DisplayMode::findOne(['key' => $this->display])->id : null;
+        $o->controller_id   = $this->controller ? ControllerMode::findOne(['key' => $this->controller])->id : null;
 
         $o->my_point                = (string)$this->my_point != '' ? (int)$this->my_point : null;
         $o->my_team_final_point     = (string)$this->my_team_final_point != ''

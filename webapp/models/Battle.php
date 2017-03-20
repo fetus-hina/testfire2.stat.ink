@@ -79,6 +79,8 @@ use app\components\helpers\Differ;
  * @property integer $max_kill_streak
  * @property boolean $use_for_entire
  * @property integer $bonus_id
+ * @property integer $display_id
+ * @property integer $controller_id
  *
  * @property Agent $agent
  * @property Environment $env
@@ -102,6 +104,8 @@ use app\components\helpers\Differ;
  * @property SplatoonVersion $splatoonVersion
  * @property SplatoonVersion $agentGameVersion
  * @property TurfwarWinBonus $bonus
+ * @property DisplayMode $display
+ * @property ControllerMode $controller
  */
 class Battle extends ActiveRecord
 {
@@ -201,6 +205,15 @@ class Battle extends ActiveRecord
             [['bonus_id'], 'exist', 'skipOnError' => true,
                 'targetClass' => TurfwarWinBonus::class,
                 'targetAttribute' => ['bonus_id' => 'id']],
+            [['display_id', 'controller_id'], 'integer'],
+            [['display_id'], 'exist', 'skipOnError' => true,
+                'targetClass' => DisplayMode::class,
+                'targetAttribute' => ['display_id' => 'id'],
+            ],
+            [['controller_id'], 'exist', 'skipOnError' => true,
+                'targetClass' => ControllerMode::class,
+                'targetAttribute' => ['controller_id' => 'id'],
+            ],
         ];
     }
 
@@ -269,6 +282,8 @@ class Battle extends ActiveRecord
             'max_kill_streak' => 'Max Kill Streak',
             'use_for_entire' => 'Use for entire stats',
             'bonus_id' => 'Bonus ID',
+            'display_id' => 'Display Mode ID',
+            'controller_id' => 'Controller Mode ID',
         ];
     }
 
@@ -494,6 +509,16 @@ class Battle extends ActiveRecord
     public function getBonus()
     {
         return $this->hasOne(TurfwarWinBonus::class, ['id' => 'bonus_id']);
+    }
+
+    public function getDisplay()
+    {
+        return $this->hasOne(DisplayMode::class, ['id' => 'display_id']);
+    }
+
+    public function getController()
+    {
+        return $this->hasOne(ControllerMode::class, ['id' => 'controller_id']);
     }
 
     public function getIsNawabari()
@@ -825,6 +850,8 @@ class Battle extends ActiveRecord
                     'shoes'    => $this->shoes ? $this->shoes->toJsonArray() : null,
                 ],
             'period' => $this->period,
+            'display' => $this->display ? $this->display->toJsonArray() : null,
+            'controller' => $this->controller ? $this->controller->toJsonArray() : null,
             'players' => (in_array('players', $skips, true) || count($this->battlePlayers) === 0)
                 ? null
                 : array_map(

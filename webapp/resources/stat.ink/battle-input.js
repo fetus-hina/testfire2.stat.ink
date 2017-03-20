@@ -30,6 +30,8 @@
         var $buttonStages = $('.battle-input-form--stages', $modal);
         var $buttonResults = $('.battle-input-form--result', $modal);
         var $regularSubmit = $('#battle-input-form--regular--submit', $modal);
+        var $selectDisplay = $('#battle-input-form--regular--display', $modal);
+        var $selectController = $('#battle-input-form--regular--controller', $modal);
 
         var updateUuidRegular = function () {
             $('#battle-input-form--regular--uuid').val(UUID.genV1().hexString);
@@ -138,6 +140,29 @@
                                 });
                                 return $group;
                             })());
+                        });
+                    });
+
+                    $selectDisplay.each(function () {
+                        var $this = $(this);
+                        $this.empty().append($('<option>').attr('data-controllers', 'null'));
+                        $.each(json.displayModes, function (key, value) {
+                            $this.append(
+                                $('<option>', {label: value.name, value: key})
+                                    .attr('data-controllers', JSON.stringify(value.controllers))
+                                    .text(value.name)
+                            );
+                        });
+                    });
+
+                    $selectController.each(function () {
+                        var $this = $(this);
+                        $this.empty().append($('<option>'));
+                        $.each(json.controllers, function (key, value) {
+                            $this.append(
+                                $('<option>', {label: value.name, value: key})
+                                    .text(value.name)
+                            );
                         });
                     });
 
@@ -287,6 +312,24 @@
                 .addClass($this.attr('data-value') === 'win' ? 'btn-info' : 'btn-danger');
         });
 
+        // ディスプレイ接続モード変更時に対応するコントローラに更新する
+        $selectDisplay.change(function () {
+            var $this = $(this);
+            var lastController = $selectController.val();
+            var enabledControllers = JSON.parse($('option:selected', $this).attr('data-controllers'));
+            if (enabledControllers && $.inArray(lastController, enabledControllers) < 0) {
+                $selectController.val('');
+            }
+            $('option', $selectController).each(function () {
+                var $option = $(this);
+                if (!enabledControllers || $option.val() == '' || $.inArray($option.val(), enabledControllers) >= 0) {
+                    $option.prop('disabled', false);
+                } else {
+                    $option.prop('disabled', true);
+                }
+            });
+        });
+
         // レギュラーバトルの送信ボタン押下処理
         $regularSubmit.click(function () {
             var $this = $(this);
@@ -339,6 +382,8 @@
             var idList = [
                 '#battle-input-form--regular--rule',
                 '#battle-input-form--regular--lobby',
+                '#battle-input-form--regular--display',
+                '#battle-input-form--regular--controller',
                 '#battle-input-form--regular--weapon',
                 '#battle-input-form--regular--stage',
                 '#battle-input-form--regular--result',

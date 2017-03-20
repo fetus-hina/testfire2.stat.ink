@@ -19,6 +19,12 @@
         {{/if}}
       {{/if}}
     </td>
+    <td class="cell-display">
+      {{$model->display->name|default:'?'|translate:'app-switch'|escape}}
+    </td>
+    <td class="cell-controller">
+      {{$model->controller->name|default:'?'|translate:'app-switch'|escape}}
+    </td>
     <td class="cell-lobby">
       {{$model->lobby->name|default:'?'|translate:'app-rule'|escape}}
     </td>

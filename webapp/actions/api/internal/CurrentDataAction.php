@@ -10,6 +10,8 @@ namespace app\actions\api\internal;
 use Yii;
 use app\assets\MapImageAsset;
 use app\components\helpers\Battle as BattleHelper;
+use app\models\ControllerMode;
+use app\models\DisplayMode;
 use app\models\GameMode;
 use app\models\Map;
 use app\models\PeriodMap;
@@ -40,6 +42,8 @@ class CurrentDataAction extends ViewAction
             'maps' => $this->getMaps(),
             'weapons' => $this->getWeapons(),
             'favWeapons' => $this->getFavoriteWeapons(),
+            'controllers' => $this->getControllers(),
+            'displayModes' => $this->getDisplayModes(),
         ];
     }
 
@@ -150,5 +154,33 @@ class CurrentDataAction extends ViewAction
     public function getFavoriteWeapons()
     {
         return [];
+    }
+
+    public function getControllers() : array
+    {
+        $ret = [];
+        foreach (ControllerMode::find()->orderBy('[[id]]')->asArray()->all() as $row) {
+            $ret[$row['key']] = [
+                'name' => Yii::t('app-switch', $row['name']),
+            ];
+        }
+        return $ret;
+    }
+
+    public function getDisplayModes() : array
+    {
+        $ret = [];
+        foreach (DisplayMode::find()->orderBy('[[id]]')->with('controllers')->asArray()->all() as $row) {
+            $ret[$row['key']] = [
+                'name' => Yii::t('app-switch', $row['name']),
+                'controllers' => array_map(
+                    function (array $controller) : string {
+                        return $controller['key'];
+                    },
+                    $row['controllers']
+                ),
+            ];
+        }
+        return $ret;
     }
 }
