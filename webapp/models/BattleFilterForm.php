@@ -8,10 +8,11 @@
 namespace app\models;
 
 use Yii;
-use yii\base\Model;
-use app\components\helpers\db\Now;
 use app\components\helpers\Battle as BattleHelper;
+use app\components\helpers\db\Now;
 use app\models\Battle;
+use app\models\ControllerMode;
+use app\models\DisplayMode;
 use app\models\GameMode;
 use app\models\Lobby;
 use app\models\Map;
@@ -23,11 +24,14 @@ use app\models\Subweapon;
 use app\models\Timezone;
 use app\models\User;
 use app\models\Weapon;
+use yii\base\Model;
 
 class BattleFilterForm extends Model
 {
     public $screen_name;
 
+    public $display;
+    public $controller;
     public $lobby;
     public $rule;
     public $map;
@@ -52,6 +56,12 @@ class BattleFilterForm extends Model
             [['screen_name'], 'exist',
                 'targetClass' => User::class,
                 'targetAttribute' => 'screen_name'],
+            [['display'], 'exist',
+                'targetClass' => DisplayMode::class,
+                'targetAttribute' => 'key'],
+            [['controller'], 'exist',
+                'targetClass' => ControllerMode::class,
+                'targetAttribute' => 'key'],
             [['lobby'], 'exist',
                 'targetClass' => Lobby::class,
                 'targetAttribute' => 'key'],
@@ -142,6 +152,8 @@ class BattleFilterForm extends Model
     {
         return [
             'screen_name'   => Yii::t('app', 'Screen Name'),
+            'display'       => Yii::t('app', 'Display'),
+            'controller'    => Yii::t('app', 'Controller'),
             'lobby'         => Yii::t('app', 'Lobby'),
             'rule'          => Yii::t('app', 'Mode'),
             'map'           => Yii::t('app', 'Stage'),

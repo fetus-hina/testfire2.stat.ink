@@ -32,6 +32,8 @@ class BattleQuery extends ActiveQuery
     {
         return $this
             ->filterByScreenName($filter->screen_name)
+            ->filterByDisplay($filter->display)
+            ->filterByController($filter->controller)
             ->filterByLobby($filter->lobby)
             ->filterByRule($filter->rule)
             ->filterByMap($filter->map)
@@ -54,6 +56,28 @@ class BattleQuery extends ActiveQuery
             return $this;
         }
         return $this->innerJoinWith('user')->andWhere(['{{user}}.[[screen_name]]' => $value]);
+    }
+
+    public function filterByDisplay($value)
+    {
+        $value = trim((string)$value);
+        if ($value === '') {
+            return $this;
+        }
+        $this->innerJoinWith('display');
+        $this->andWhere(['{{display_mode}}.[[key]]' => $value]);
+        return $this;
+    }
+
+    public function filterByController($value)
+    {
+        $value = trim((string)$value);
+        if ($value === '') {
+            return $this;
+        }
+        $this->innerJoinWith('controller');
+        $this->andWhere(['{{controller_mode}}.[[key]]' => $value]);
+        return $this;
     }
 
     public function filterByLobby($value)

@@ -58,6 +58,8 @@ class UserAction extends BaseAction
                 'weapon.special',
                 'rank',
                 'rankAfter',
+                'display',
+                'controller',
             ]);
 
         $filter = new BattleFilterForm();

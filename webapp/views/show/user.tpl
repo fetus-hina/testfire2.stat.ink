@@ -246,7 +246,7 @@
         </div>
       </div>
       <div class="col-xs-12 col-sm-4 col-md-4 col-lg-3">
-        {{BattleFilterWidget route="show/user" screen_name=$user->screen_name filter=$filter}}
+        {{BattleFilterWidget route="show/user" screen_name=$user->screen_name filter=$filter display=true controller=true}}
         {{include file="@app/views/includes/user-miniinfo.tpl" user=$user}}
         {{AdWidget}}
       </div>

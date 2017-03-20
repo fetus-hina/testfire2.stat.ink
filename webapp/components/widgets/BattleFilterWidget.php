@@ -10,6 +10,8 @@ namespace app\components\widgets;
 use Yii;
 use app\components\helpers\Resource;
 use app\components\helpers\db\Now;
+use app\models\ControllerMode;
+use app\models\DisplayMode;
 use app\models\GameMode;
 use app\models\Lobby;
 use app\models\Map;
@@ -35,6 +37,8 @@ class BattleFilterWidget extends Widget
     public $screen_name;
     public $filter;
 
+    public $display = false;
+    public $controller = false;
     public $lobby = true;
     public $rule = true;
     public $map = true;
@@ -67,6 +71,12 @@ class BattleFilterWidget extends Widget
     protected function drawFields(ActiveForm $form)
     {
         $ret = [];
+        if ($this->display) {
+            $ret[] = $this->drawDisplay($form);
+        }
+        if ($this->controller) {
+            $ret[] = $this->drawController($form);
+        }
         if ($this->lobby) {
             $ret[] = $this->drawLobby($form);
         }
@@ -120,6 +130,30 @@ class BattleFilterWidget extends Widget
                 );
         }
         return implode('', $ret);
+    }
+
+    protected function drawDisplay(ActiveForm $form)
+    {
+        $list = (function () {
+            $ret = [ '' => Yii::t('app-switch', 'Any Mode') ];
+            foreach (DisplayMode::find()->orderBy('[[id]]')->asArray()->all() as $a) {
+                $ret[$a['key']] = Yii::t('app-switch', $a['name']);
+            }
+            return $ret;
+        })();
+        return $form->field($this->filter, 'display')->dropDownList($list)->label(false);
+    }
+
+    protected function drawController(ActiveForm $form)
+    {
+        $list = (function () {
+            $ret = [ '' => Yii::t('app-switch', 'Any Controller') ];
+            foreach (ControllerMode::find()->orderBy('[[id]]')->asArray()->all() as $a) {
+                $ret[$a['key']] = Yii::t('app-switch', $a['name']);
+            }
+            return $ret;
+        })();
+        return $form->field($this->filter, 'controller')->dropDownList($list)->label(false);
     }
 
     protected function drawLobby(ActiveForm $form)
