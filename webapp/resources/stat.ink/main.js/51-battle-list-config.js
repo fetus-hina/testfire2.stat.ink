@@ -8,6 +8,8 @@ window.battleListConfig = function() {
         }
         var defaults = {
             hscroll: false,
+            "cell-display": false,
+            "cell-controller": false,
             "cell-lobby": false,
             "cell-rule": true,
             "cell-rule-short": false,
