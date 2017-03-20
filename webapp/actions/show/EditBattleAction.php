@@ -8,17 +8,19 @@
 namespace app\actions\show;
 
 use Yii;
-use yii\web\NotFoundHttpException;
-use yii\web\ViewAction as BaseAction;
 use app\models\Battle;
 use app\models\BattleDeleteForm;
 use app\models\BattleForm;
+use app\models\ControllerMode;
+use app\models\DisplayMode;
 use app\models\GameMode;
 use app\models\Lobby;
 use app\models\Map;
 use app\models\Rule;
 use app\models\Weapon;
 use app\models\WeaponType;
+use yii\web\NotFoundHttpException;
+use yii\web\ViewAction as BaseAction;
 
 class EditBattleAction extends BaseAction
 {
@@ -87,6 +89,8 @@ class EditBattleAction extends BaseAction
             'rules' => $this->makeRules(),
             'maps' => $this->makeMaps(),
             'weapons' => $this->makeWeapons(),
+            'displayModes' => $this->makeDisplayModes(),
+            'controllerModes' => $this->makeControllerModes(),
         ]);
     }
 
@@ -146,6 +150,30 @@ class EditBattleAction extends BaseAction
             }
             asort($tmp);
             $ret[$typeName] = $tmp;
+        }
+        return static::arrayMerge(
+            ['' => Yii::t('app', 'Unknown')],
+            $ret
+        );
+    }
+
+    private function makeDisplayModes()
+    {
+        $ret = [];
+        foreach (DisplayMode::find()->orderBy('id')->asArray()->all() as $row) {
+            $ret[$row['id']] = Yii::t('app-switch', $row['name']);
+        }
+        return static::arrayMerge(
+            ['' => Yii::t('app', 'Unknown')],
+            $ret
+        );
+    }
+
+    private function makeControllerModes()
+    {
+        $ret = [];
+        foreach (ControllerMode::find()->orderBy('id')->asArray()->all() as $row) {
+            $ret[$row['id']] = Yii::t('app-switch', $row['name']);
         }
         return static::arrayMerge(
             ['' => Yii::t('app', 'Unknown')],

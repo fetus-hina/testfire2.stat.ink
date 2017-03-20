@@ -1,6 +1,6 @@
 <?php
 /**
- * @copyright Copyright (C) 2015 AIZAWA Hina
+ * @copyright Copyright (C) 2015-2017 AIZAWA Hina
  * @license https://github.com/fetus-hina/stat.ink/blob/master/LICENSE MIT
  * @author AIZAWA Hina <hina@bouhime.com>
  */
@@ -13,6 +13,8 @@ use app\components\validators\IdnToPunycodeFilterValidator;
 
 class BattleForm extends Model
 {
+    public $display_id;
+    public $controller_id;
     public $lobby_id;
     public $rule_id;
     public $map_id;
@@ -24,6 +26,14 @@ class BattleForm extends Model
     public function rules()
     {
         return [
+            [['display_id', 'controller_id', 'lobby_id', 'rule_id'], 'integer'],
+            [['map_id', 'weapon_id'], 'integer'],
+            [['display_id'], 'exist',
+                'targetClass' => DisplayMode::class,
+                'targetAttribute' => 'id'],
+            [['controller_id'], 'exist',
+                'targetClass' => ControllerMode::class,
+                'targetAttribute' => 'id'],
             [['lobby_id'], 'exist',
                 'targetClass' => Lobby::class,
                 'targetAttribute' => 'id'],
@@ -55,6 +65,8 @@ class BattleForm extends Model
     public function attributeLabels()
     {
         return [
+            'display_id' => Yii::t('app', 'Display'),
+            'controller_id' => Yii::t('app', 'Controller'),
             'lobby_id'  => Yii::t('app', 'Lobby'),
             'rule_id'   => Yii::t('app', 'Mode'),
             'map_id'    => Yii::t('app', 'Stage'),

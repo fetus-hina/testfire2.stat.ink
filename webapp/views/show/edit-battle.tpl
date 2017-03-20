@@ -31,6 +31,22 @@
         <tbody>
           <tr>
             <th>
+              {{'Display'|translate:'app'|escape}}
+            </th>
+            <td>
+              {{$_->field($form, 'display_id')->label(false)->dropDownList($displayModes)}}
+            </td>
+          </tr>
+          <tr>
+            <th>
+              {{'Controller'|translate:'app'|escape}}
+            </th>
+            <td>
+              {{$_->field($form, 'controller_id')->label(false)->dropDownList($controllerModes)}}
+            </td>
+          </tr>
+          <tr>
+            <th>
               {{'Lobby'|translate:'app'|escape}}
             </th>
             <td>
