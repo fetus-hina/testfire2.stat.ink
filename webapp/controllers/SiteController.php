@@ -56,7 +56,7 @@ class SiteController extends Controller
 
     public function actionApi()
     {
-        $this->redirect('https://github.com/fetus-hina/stat.ink/blob/master/API.md');
+        $this->redirect('https://github.com/fetus-hina/testfire2.stat.ink/blob/master/webapp/API.md');
     }
 
     public function actionRobots()
