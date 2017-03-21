@@ -12,28 +12,6 @@
     {{ActiveForm assign="_" id="update-form" action=['user/edit-profile']}}
       {{$_->field($form, 'name')}}
 
-      {{$_options = [
-          User::BLACKOUT_NOT_BLACKOUT => Yii::t('app', 'No black out'),
-          User::BLACKOUT_NOT_PRIVATE  => Yii::t('app', 'Black out except private battle'),
-          User::BLACKOUT_NOT_FRIEND   => Yii::t('app', 'Black out except private battle and teammate on squad battle (tri or quad)'),
-          User::BLACKOUT_ALWAYS       => Yii::t('app', 'Black out other players')
-        ]}}
-      {{$_->field($form, 'blackout')->dropDownList($_options)}}
-
-      <div class="row">
-        <div class="col-xs-12 col-sm-11 col-sm-push-1">
-          {{include file="_blackout-hint.tpl"}}
-          {{registerJs}}
-            (function($){
-              "use strict";
-              $('#profileform-blackout').change(function(){
-                updateBlackOutHint($(this).val())
-              }).change();
-            })(jQuery);
-          {{/registerJs}}
-        </div>
-      </div>
-
       {{$_->field($form, 'nnid')}}
 
       {{$_->field($form, 'twitter', [

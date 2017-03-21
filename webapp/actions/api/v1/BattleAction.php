@@ -385,16 +385,16 @@ class BattleAction extends BaseAction
                 : file_get_contents($form->image_result->tempName, false);
 
             $blackoutList = [];
-            if ((1 <= $form->rank_in_team && $form->rank_in_team <= 4) &&
-                    ($form->result === 'win' || $form->result === 'lose') &&
-                    ($form->lobby != '')
-            ) {
-                $blackoutList = \app\components\helpers\Blackout::getBlackoutTargetList(
-                    $form->lobby,
-                    $form->user->blackout,
-                    (($form->result === 'win') ? 0 : 4) + $form->rank_in_team
-                );
-            }
+            // if ((1 <= $form->rank_in_team && $form->rank_in_team <= 4) &&
+            //         ($form->result === 'win' || $form->result === 'lose') &&
+            //         ($form->lobby != '')
+            // ) {
+            //     $blackoutList = \app\components\helpers\Blackout::getBlackoutTargetList(
+            //         $form->lobby,
+            //         $form->user->blackout,
+            //         (($form->result === 'win') ? 0 : 4) + $form->rank_in_team
+            //     );
+            // }
 
             if (!ImageConverter::convert(
                 $binary,
